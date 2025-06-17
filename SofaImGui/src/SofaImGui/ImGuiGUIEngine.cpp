@@ -79,6 +79,7 @@
 #include "AppIniFile.h"
 #include "windows/ViewPort.h"
 #include "windows/WindowState.h"
+#include "guis/AdditionalGUIManager.h"
 
 using namespace sofa;
 
@@ -558,6 +559,11 @@ void ImGuiGUIEngine::startFrame(sofaglfw::SofaGLFWBaseGUI* baseGUI)
 
             ImGui::Separator();
 
+            sofaimgui::guis::registerBuiltinGUIs(groot);
+            sofaimgui::guis::drawWindowMenuCheckboxes(winManagerAdditionalGUIs, getConfigurationFolderPath());
+
+            ImGui::Separator();
+
             ImGui::Checkbox(windowNameSettings, winManagerSettings.getStatePtr());
 
             ImGui::EndMenu();
@@ -673,9 +679,14 @@ void ImGuiGUIEngine::startFrame(sofaglfw::SofaGLFWBaseGUI* baseGUI)
     windows::showLog(windowNameLog, winManagerLog);
 
     /***************************************
-     * Log window
+     * Mouse window
      **************************************/
     windows::showManagerMouseWindow(windowNameMouse, winManagerMouse, baseGUI);
+
+    /***************************************
+     * Additional GUIs
+     **************************************/
+    sofaimgui::guis::showVisibleGUIs(winManagerAdditionalGUIs);
 
     /***************************************
      * Settings window
